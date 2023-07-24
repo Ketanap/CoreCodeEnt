@@ -38,6 +38,7 @@ namespace CoreEnt.Controllers
             if(udata!=null)
             {
                 //  ViewData["msg"]="Login Success";
+                HttpContext.Session.SetString("_userId",udata.UserId.ToString());
                 return RedirectToAction("Index","Contact");
             }
             else

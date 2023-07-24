@@ -1,3 +1,39 @@
  @{ Layout = null; }
- @model CoreEnt.Models.tblContact
+ @model  IEnumerable<CoreEnt.Models.tblContact>
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+ </head>
+ <body>
+    
+ <div class="container">
+        <a class="btn btn-primary" asp-area="" asp-controller="Contact" asp-action="Add">Add</a>
  <h1>Contact </h1>
+    
+    <table class="table">  
+     <tr>  
+         
+         <th>Name</th>  
+         <th>Email</th>  
+         <th>Contact</th>  
+         <th>Address</th>  
+      </tr>  
+   @foreach (var item in Model)  
+   {  
+       <tr>  
+           <td>@item.Name </td>  
+           <td>@item.Email</td>  
+           <td>@item.Contact</td>  
+           <td>@item.Address</td>  
+           
+        </tr>  
+    }  
+ </table>  
+  </div>
+</body>
+ </html>   
+ 

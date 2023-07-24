@@ -26,5 +26,6 @@ namespace CoreEnt.Models
         }
     }
         public virtual DbSet<tblUser> tblUser { get; set; }
+        public virtual DbSet<tblContact> tblContact { get; set; }
     }
 }
