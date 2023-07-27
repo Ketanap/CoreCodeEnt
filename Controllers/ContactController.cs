@@ -13,7 +13,7 @@ namespace CoreEnt.Controllers
     public class ContactController : Controller
     {
         
-        public IActionResult Index()
+        public IActionResult Index(int id=0)
         {         
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("_userId"))) 
             {           
@@ -22,6 +22,14 @@ namespace CoreEnt.Controllers
             else
             {
                 var context = new CoreDBContext();
+                if(id!=0)
+                {
+                    var delContact=context.tblContact.Where(
+                    data =>data.ContactId==id).FirstOrDefault();
+                   context.tblContact.Remove(delContact);
+                   context.SaveChanges();
+                }
+                
                 var data=context.tblContact.Where(
                     data =>data.UserId == Convert.ToInt32(HttpContext.Session.GetString("_userId")) )
                 .ToList(); 
@@ -29,7 +37,7 @@ namespace CoreEnt.Controllers
             }
             
         }
-        public IActionResult Add()
+        public IActionResult Add(int id=0)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("_userId"))) 
             {           
@@ -37,18 +45,38 @@ namespace CoreEnt.Controllers
             }
             else
             {
-                return View();
+                var context = new CoreDBContext();
+                tblContact editContact=new tblContact();
+                if(id>0)
+                {
+                    editContact=context.tblContact.Where(
+                    data =>data.ContactId==id).FirstOrDefault();                   
+                }
+                return View(editContact);
             }
         }
         [HttpPost]
         public IActionResult Add(tblContact data)
         {
             var context = new CoreDBContext();
-            data.UserId=Convert.ToInt32( HttpContext.Session.GetString("_userId"));
-            context.tblContact.Add (data);        
-            context.SaveChanges();
-            return RedirectToAction("Index","Contact");
-          
+            if(data.ContactId==0)
+            {
+                data.UserId=Convert.ToInt32( HttpContext.Session.GetString("_userId"));
+                context.tblContact.Add (data);        
+                context.SaveChanges();
+            }
+            else
+            {
+                    var editContact=context.tblContact.Where(
+                    tbldata =>tbldata.ContactId==data.ContactId).FirstOrDefault();    
+                    editContact.Name=data.Name;
+                    editContact.Address =data.Address ;
+                    editContact.Email = data.Email ;
+                    editContact.Contact =data.Contact ;
+                    context.SaveChanges();
+ 
+            }
+            return RedirectToAction("Index","Contact");          
         }
 
     }

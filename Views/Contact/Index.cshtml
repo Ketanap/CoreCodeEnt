@@ -16,20 +16,41 @@
     
     <table class="table">  
      <tr>  
-         
+         <th>Edit</th>
          <th>Name</th>  
          <th>Email</th>  
          <th>Contact</th>  
          <th>Address</th>  
+         <th>Delete</th>
       </tr>  
    @foreach (var item in Model)  
    {  
        <tr>  
+           <td> @Html.ActionLink("Edit",  "Add", "Contact", 
+                   new 
+                       { 
+                           id = @item.ContactId 
+                       }, 
+                   new { 
+                           @class = "btn btn-primary", 
+                       }
+                   )
+           </td>
            <td>@item.Name </td>  
            <td>@item.Email</td>  
            <td>@item.Contact</td>  
            <td>@item.Address</td>  
-           
+           <td> @Html.ActionLink("Delete",  "Index", "Contact", 
+                   new 
+                       { 
+                           id = @item.ContactId 
+                       }, 
+                   new { 
+                           @class = "btn btn-danger", 
+                       }
+                   )
+           </td>
+      
         </tr>  
     }  
  </table>  
